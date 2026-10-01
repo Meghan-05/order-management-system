@@ -1,0 +1,102 @@
+package com.meghana.ordermanagementsystem.customer.service;
+
+import com.meghana.ordermanagementsystem.common.exception.ResourceNotFoundException;
+import com.meghana.ordermanagementsystem.customer.enums.CustomerType;
+import com.meghana.ordermanagementsystem.customer.entity.Customer;
+import com.meghana.ordermanagementsystem.customer.exception.CustomerHasActiveOrdersException;
+import com.meghana.ordermanagementsystem.customer.exception.DuplicateEmailException;
+import com.meghana.ordermanagementsystem.customer.repository.CustomerRepository;
+import com.meghana.ordermanagementsystem.customer.specification.CustomerSpecification;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class CustomerService {
+    private CustomerRepository customerRepository;
+
+    @Transactional
+    public Customer createCustomer(Customer customer) {
+        if(customerRepository.existsCustomersByEmail(customer.getEmail())) {
+            throw new DuplicateEmailException();
+        }
+
+        return customerRepository.save(customer);
+    }
+
+    @Transactional(readOnly = true)
+    public Customer findCustomer(long id) {
+        Optional<Customer> customerResponse = customerRepository.findById(id);
+
+        return customerResponse.orElseThrow(() -> new ResourceNotFoundException("Customer", id));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Customer> getAllCustomers(
+            String email,
+            String firstName,
+            String lastName,
+            CustomerType customerType,
+            Boolean isActive,
+            String city,
+            String country,
+            Integer page,
+            Integer size,
+            String sortBy,
+            String direction) {
+
+        Sort.Direction sortDirection = direction.equalsIgnoreCase("ASC")
+                ? Sort.Direction.ASC
+                : Sort.Direction.DESC;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+
+        Specification<Customer> spec = CustomerSpecification.filterBy(
+                email, firstName, lastName, customerType, isActive, city, country
+        );
+
+        return customerRepository.findAll(spec, pageable);
+    }
+
+    @Transactional
+    public Customer updateCustomer(Customer customer) {
+        long customerId = customer.getId();
+        if(!customerRepository.existsById(customerId)) {
+            throw new ResourceNotFoundException("Customer", customerId);
+        }
+
+        if(customerRepository.existsCustomersByEmail(customer.getEmail())) {
+            throw new DuplicateEmailException();
+        }
+
+        return customerRepository.save(customer);
+    }
+
+    @Transactional
+    public void deleteCustomer(long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+
+        if(customerHasActiveOrders(customer)) {
+            throw new CustomerHasActiveOrdersException(customerId);
+        }
+
+        customer.setIsActive(false);
+        customerRepository.save(customer);
+    }
+
+    private boolean customerHasActiveOrders(Customer customer) {
+        return customer.getOrders()
+                .stream()
+                .anyMatch(order -> order.getStatus().isActiveOrder());
+    }
+
+}
