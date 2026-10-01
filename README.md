@@ -1,10 +1,10 @@
-# ?? Order Management System
+#  Order Management System
 
 A professional e-commerce order management REST API built with **Spring Boot 3** and **PostgreSQL**. Features advanced business logic including dynamic discounts, inventory management, state-based order workflows, and comprehensive validation.
 
 ---
 
-## ?? Key Features
+##  Key Features
 
 ### **Business Logic**
 - **Dynamic Discount System**: Multi-tier discounts based on customer type (STANDARD/PREMIUM) and order total
@@ -21,7 +21,7 @@ A professional e-commerce order management REST API built with **Spring Boot 3**
 
 ---
 
-## ?? Data Model
+##  Data Model
 ```
 Customer (1) --< (N) Order (1) --< (N) OrderItem (N) >-- (1) Product
 ```
@@ -39,12 +39,12 @@ Customer (1) --< (N) Order (1) --< (N) OrderItem (N) >-- (1) Product
 
 ---
 
-## ?? Business Rules
+##  Business Rules
 
 ### **Order Creation**
 1. Validate customer is active
 2. Check product availability and stock levels
-3. Calculate subtotals (quantity × unit price)
+3. Calculate subtotals (quantity Ã— unit price)
 4. Apply customer type discount (0-10%)
 5. Apply bulk order discount (5% for orders > 500 TL)
 6. Deduct inventory from products
@@ -67,7 +67,7 @@ DELIVERED ? * ? (Final state)
 
 ---
 
-## ??? Tech Stack
+##  Tech Stack
 
 - **Framework**: Spring Boot 3.2.1
 - **Language**: Java 21
@@ -80,7 +80,7 @@ DELIVERED ? * ? (Final state)
 
 ---
 
-## ?? Getting Started
+##  Getting Started
 
 ### **Prerequisites**
 - Java 21+
@@ -100,7 +100,7 @@ Application runs on `http://localhost:8080`
 
 ---
 
-## ?? API Endpoints
+##  API Endpoints
 
 ### **Customers**
 ```http
@@ -138,7 +138,7 @@ DELETE /api/orders/{id}                  # Cancel order (PENDING only)
 
 ---
 
-## ?? Advanced Features
+##  Advanced Features
 
 ### **Dynamic Filtering with Specifications**
 ```java
@@ -185,23 +185,23 @@ All filters are optional and can be combined. Default: returns only active recor
 
 ---
 
-## ??? Project Structure
+##  Project Structure
 ```
 src/main/java/com/meghana/ordermanagementsystem/
 +-- common/
-¦   +-- dto/                    # Shared DTOs (PaginationResponse)
-¦   +-- exception/              # Global exception handling
-¦   +-- mapper/                 # Base mapper interface
+Â¦   +-- dto/                    # Shared DTOs (PaginationResponse)
+Â¦   +-- exception/              # Global exception handling
+Â¦   +-- mapper/                 # Base mapper interface
 +-- customer/
-¦   +-- controller/             # REST endpoints
-¦   +-- dto/                    # Request/Response DTOs
-¦   +-- entity/                 # JPA entity
-¦   +-- enums/                  # CustomerType enum
-¦   +-- exception/              # Domain-specific exceptions
-¦   +-- mapper/                 # MapStruct mappers
-¦   +-- repository/             # JPA repository
-¦   +-- service/                # Business logic
-¦   +-- specification/          # JPA Criteria queries
+Â¦   +-- controller/             # REST endpoints
+Â¦   +-- dto/                    # Request/Response DTOs
+Â¦   +-- entity/                 # JPA entity
+Â¦   +-- enums/                  # CustomerType enum
+Â¦   +-- exception/              # Domain-specific exceptions
+Â¦   +-- mapper/                 # MapStruct mappers
+Â¦   +-- repository/             # JPA repository
+Â¦   +-- service/                # Business logic
+Â¦   +-- specification/          # JPA Criteria queries
 +-- product/                    # Similar structure
 +-- order/                      # Similar structure + utils
 ```
@@ -215,7 +215,7 @@ src/main/java/com/meghana/ordermanagementsystem/
 
 ---
 
-## ?? Design Decisions
+##  Design Decisions
 
 ### **Soft Delete Strategy**
 - Customers and Products use `isActive` flag
@@ -235,7 +235,7 @@ src/main/java/com/meghana/ordermanagementsystem/
 
 ---
 
-## ?? Testing
+##  Testing
 ```bash
 # Run tests
 mvn test
@@ -246,7 +246,7 @@ mvn clean verify
 
 ---
 
-## ?? Configuration
+##  Configuration
 
 **Database**: `src/main/resources/application.yml`
 ```yaml
@@ -271,7 +271,7 @@ services:
 
 ---
 
-## ?? Exception Handling
+##  Exception Handling
 
 Centralized error handling with consistent response format:
 
@@ -281,7 +281,7 @@ Centralized error handling with consistent response format:
 
 ---
 
-## ?? Learning Highlights
+##  Learning Highlights
 
 This project demonstrates:
 - ? RESTful API design principles
