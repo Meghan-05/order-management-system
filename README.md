@@ -284,22 +284,22 @@ Centralized error handling with consistent response format:
 ##  Learning Highlights
 
 This project demonstrates:
-- ? RESTful API design principles
-- ? Complex business logic implementation
-- ? Advanced JPA features (Specifications, Cascades, Fetch Strategies)
-- ? Proper error handling and validation
-- ? Clean code architecture
-- ? Real-world e-commerce workflows
+-  RESTful API design principles
+-  Complex business logic implementation
+-  Advanced JPA features (Specifications, Cascades, Fetch Strategies)
+-  Proper error handling and validation
+-  Clean code architecture
+-  Real-world e-commerce workflows
 
 ---
 
-## ?? License
+##  License
 
 This project is for educational purposes.
 
 ---
 
-## ?? Author
+##  Author
 
-**Yasir Akbal**
-- GitHub: [@meghana](https://github.com/YasirAkbal)
+**Meghana mahaveer**
+- GitHub: [Meghan-05](https://github.com/Meghan-05)
